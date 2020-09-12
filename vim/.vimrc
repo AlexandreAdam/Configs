@@ -1,6 +1,7 @@
-
 call plug#begin('~/.vim/plugged')
 
+Plug 'myusuf3/numbers.vim'
+Plug 'flazz/vim-colorschemes'
 Plug 'dylanaraps/wal.vim'
 Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -79,13 +80,24 @@ set conceallevel=2
 let g:tex_conceal='abdmg'
 
 
+inoremap <c-x><c-k> <c-x><c-k>
 " ultisnippet
 let g:UltiSnipsExpandTrigger="<leader><tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="horizontal"
+map <leader>use :UltiSnipsEdit
+
 " colorsheme
 Plug 'dylanaraps/wal.vim'
-colorscheme wal
-hi Normal guibg=#111111 ctermbg=black
+"colorscheme wal
+colorscheme wombat
+"hi Normal ctermbg=Black
+"
+"
+let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree']
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
