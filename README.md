@@ -1,2 +1,2 @@
 # Configs
-A repo where I store my favorite Linux configuration files.
+A repo where I store dot files and snippets.
