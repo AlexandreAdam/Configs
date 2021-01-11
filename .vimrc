@@ -13,6 +13,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'lervag/vimtex'
 Plug 'sirver/ultisnips'
 Plug 'ycm-core/YouCompleteMe'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 call plug#end()
 
@@ -86,6 +88,13 @@ nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>jD :YcmCompleter GetDoc<CR>
 nnoremap <leader>jR :YcmCompleter RefactorRename
 
+" FZF file search
+nnoremap <silent> <leader>F :Files<CR>
+nnoremap <silent> <leader>f :Rg<CR>
+" Silver searcher
+nnoremap <silent> <leader>af :Ag<CR>
+
+
 
 " vimtex 
 let g:tex_flavor = 'latex'
@@ -107,7 +116,6 @@ let g:UltiSnipsEditSplit="horizontal"
 map <leader>use :UltiSnipsEdit
 
 " colorsheme
-Plug 'dylanaraps/wal.vim'
 "colorscheme wal
 colorscheme janah
 "hi Normal ctermbg=Black
@@ -129,3 +137,5 @@ nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/
 
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+
+
