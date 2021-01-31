@@ -11,7 +11,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
 Plug 'lervag/vimtex'
-Plug 'sirver/ultisnips'
+Plug 'sirver/ultisnips', { 'tag': '3.2' }
 Plug 'ycm-core/YouCompleteMe'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -66,7 +66,7 @@ set noswapfile
 set expandtab
 set smarttab
 
-set pastetoggle=<F2>
+"set pastetoggle=<F2>
 
 " Moving between windows with ctrl+(move command)
 map <C-j> <C-W>j
@@ -88,6 +88,19 @@ nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>jD :YcmCompleter GetDoc<CR>
 nnoremap <leader>jR :YcmCompleter RefactorRename
 
+" make ycm play nice with ultisnip
+let g:ycm_auto_trigger = 0
+
+" ultisnippet
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="horizontal"
+map <leader>use :UltiSnipsEdit
+
 " FZF file search
 nnoremap <silent> <leader>F :Files<CR>
 nnoremap <silent> <leader>f :Rg<CR>
@@ -105,15 +118,6 @@ let g:tex_conceal='abdmg'
 
 
 inoremap <c-x><c-k> <c-x><c-k>
-" ultisnippet
-let g:UltiSnipsExpandTrigger="<leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="horizontal"
-map <leader>use :UltiSnipsEdit
 
 " colorsheme
 "colorscheme wal
@@ -132,8 +136,8 @@ set spelllang=en
 autocmd BufNewFile *.tex 0r ~/.vim/template/template.tex
 
 " To work wiht inkfigures
-inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
-nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
+"inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
+"nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
 
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
