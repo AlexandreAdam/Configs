@@ -13,17 +13,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-% To work with inkfigures
-\usepackage{import}
-\usepackage{pdfpages}
-\usepackage{transparent}
-\usepackage{xcolor}
-
-\newcommand{\incfig}[2][1]{%
-    \def\svgwidth{#1\columnwidth}
-    \import{./figures/}{#2.pdf_tex}
-}
-
 \pdfsuppresswarningpagegroup=1
 
 %\graphicspath{{figures/}}
@@ -42,6 +31,10 @@
 \newcommand{\s}{\hspace{0.1cm}}
 
 \newcommand{\pyoutput}[2]{#2}
+
+% Astronomy
+\DeclareSIUnit\parsec{pc}
+\DeclareSIUnit\lightyear{ly}
 
 \begin{document}
 \section{}
