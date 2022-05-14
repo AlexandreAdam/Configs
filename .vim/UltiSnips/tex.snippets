@@ -1,11 +1,6 @@
 global !p
-texMathZones = ['texMathZone' + x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS',
-'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS',
-'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z', 'AmsA', 'AmsB', 'AmsC',
-'AmsD', 'AmsE', 'AmsF', 'AmsG', 'AmsAS', 'AmsBS', 'AmsCS', 'AmsDS', 'AmsES',
-'AmsFS', 'AmsGS' ]]
-
-texIgnoreMathZones = ['texMathText']
+texMathZones = ['texMathZone' + x for x in ['', 'X', 'XX', 'Env', 'EnvStarred', 'Ensured']]
+texIgnoreMathZones = ['texMathTextArg']
 
 texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
 texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
@@ -32,6 +27,11 @@ endsnippet
 context "math()"
 snippet scr "Scripted" iA
 \mathscr{$1}$0
+endsnippet
+
+context "math()"
+snippet mbb "Mathbb" iA
+\mathbb{$1}$0
 endsnippet
 
 snippet exp "Expectation" w
@@ -129,7 +129,7 @@ snippet mbf "Math bold font" iA
 endsnippet
 
 snippet mte "Math text" iA
-\text{${VISUAL}$1}$0
+\mathrm{${VISUAL}$1}$0
 endsnippet
 
 
@@ -149,12 +149,16 @@ snippet bf "Make text bold" i
 \textbf{${VISUAL}$1}$0
 endsnippet
 
+snippet tt "Texttt" i
+\texttt{$1}$0
+endsnippet
+
 snippet it "MAke text italic" i
 \textit{${VISUAL}$1}$0
 endsnippet
 
 snippet mbs "Math bold symbol" iA
-\bm{${VISUAL} $1} $0
+\boldsymbol{${VISUAL} $1} $0
 endsnippet 
 
 context "math()"
@@ -371,3 +375,164 @@ snippet mcal "mathcal" iA
 \mathcal{$1}$0
 endsnippet
 
+
+snippet frame "beamer frame" w
+\begin{frame}{$1}{$2}
+$0
+\end{frame}
+endsnippet
+
+
+snippet beamer "beamer template" w
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage{siunitx}
+\usepackage{physics}
+
+\usepackage{hyperref}
+
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\renewcommand\thesubsection{\alph{subsection})}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\newcommand{\s}{\hspace{0.1cm}}
+
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{boxes}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{default}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[frame number]{}
+
+%gets rid of bottom navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+%gets rid of footer
+%will override 'frame number' instruction above
+%comment out to revert to previous/default definitions
+%\setbeamertemplate{footline}{}
+\setbeamertemplate{headline}{}
+
+%\usecolortheme{dove}
+\setbeamercolor{normal text}{fg=white,bg=black!90}
+\setbeamercolor{structure}{fg=white}
+
+\setbeamercolor{alerted text}{fg=red!85!black}
+
+\setbeamercolor{item projected}{use=item,fg=black,bg=item.fg!35}
+
+\setbeamercolor*{palette primary}{use=structure,fg=structure.fg}
+\setbeamercolor*{palette secondary}{use=structure,fg=structure.fg!95!black}
+\setbeamercolor*{palette tertiary}{use=structure,fg=structure.fg!90!black}
+\setbeamercolor*{palette quaternary}{use=structure,fg=structure.fg!95!black,bg=black!80}
+
+\setbeamercolor*{framesubtitle}{fg=white}
+
+\setbeamercolor*{block title}{parent=structure,bg=black!60}
+\setbeamercolor*{block body}{fg=black,bg=black!10}
+\setbeamercolor*{block title alerted}{parent=alerted text,bg=black!15}
+\setbeamercolor*{block title example}{parent=example text,bg=black!15}
+
+
+\usefonttheme{serif}
+\usepackage{caption}
+\captionsetup{labelformat=empty,labelsep=none}
+
+
+\institute[] % (optional, but mostly needed)
+{
+}
+\title{}
+\subtitle{}
+
+\author{}
+
+\date{\today}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Résumé}
+	\tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\usepackage[authoryear]{natbib}
+\bibliographystyle{abbrvnat}
+%\bibliographystyle{apacite}
+\captionsetup{labelformat=empty,labelsep=none}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{}{}
+
+\end{frame}
+
+\end{document}
+endsnippet
+
+
+snippet tikz_standalone "tikz standalone template" w
+\documentclass[crop,tikz]{standalone}
+\usepackage{amsmath}
+\usetikzlibrary{positioning}
+\begin{tikzpicture}[
+	node distance=3cm
+]
+
+\begin{document}
+\end{document}
+endsnippet
+
+
+
+snippet tex_figure "tex figure import" w
+\begin{figure}[H]
+\includestandalone[width=\linewidth]{$1}
+\caption{$3}
+\label{fig:$2}
+\end{figure}
+$0
+endsnippet
