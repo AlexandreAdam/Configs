@@ -9,6 +9,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
+Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'airblade/vim-gitgutter'
 Plug 'lervag/vimtex'
 Plug 'sirver/ultisnips', { 'tag': '3.2' }
@@ -19,6 +20,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 set history=500
+set undodir=~/.vim/undodir
+set undofile
+set undolevels=1000
+set undoreload=10000
 syntax on
 filetype indent plugin on
 
@@ -113,6 +118,7 @@ nnoremap <silent> <leader>af :Ag<CR>
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
+let g:vimtex_compiler_method='latexmk'
 set conceallevel=2
 let g:tex_conceal='abdmg'
 
@@ -134,11 +140,6 @@ set spelllang=en
 
 
 autocmd BufNewFile *.tex 0r ~/.vim/template/template.tex
-
-" To work wiht inkfigures
-"inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
-"nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
-
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 
