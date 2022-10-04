@@ -1,0 +1,167 @@
+snippet del "delta" i
+\delta $0
+endsnippet
+
+snippet scr "Scripted" i
+\mathscr{$1}$0
+endsnippet
+
+snippet mbb "Mathbb" i
+\mathbb{$1}$0
+endsnippet
+
+snippet exp "Expectation" w
+\mathbb{E}\left[ $1\right] $0
+endsnippet
+
+snippet to "Rightarrow" w
+\rightarrow $0
+endsnippet
+
+snippet implies "implies" w
+\implies $0
+endsnippet
+
+snippet iff "Double implication" w
+\iff $0
+endsnippet
+
+context "math()"
+snippet inf "Infinity symbol" w
+\infty $0
+endsnippet
+
+snippet beg "begin{} / end{}" b
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+snippet == "align equal" w
+&= $0
+endsnippet
+
+
+snippet mk "Math" wA
+$$1$$2
+endsnippet
+
+snippet md "Displayed math" wA
+\[
+	$1
+\]$0
+endsnippet
+
+
+snippet dml "Math Display Labeled" wA
+\begin{equation}\label{eq:$1}
+	${2:${VISUAL}}
+\end{equation} $0
+endsnippet
+
+
+snippet ali "Align" bA
+\begin{align*}
+	${1:${VISUAL}}
+\end{align*}
+endsnippet
+
+snippet // "Fraction" iA
+\frac{${VISUAL}$1}{$2}$0
+endsnippet
+
+snippet / "Fraction" i
+\frac{${VISUAL}}{$1}$0
+endsnippet
+
+
+snippet dfr "Displayed math fraction" wA
+\dfrac{${VISUAL}$1}{$2}$0
+endsnippet
+
+
+snippet mpa "Math partial derivative" iA
+\frac{\partial ${VISUAL}$1}{\partial $2}$0
+endsnippet
+
+snippet partial "partial symbol" i
+\partial_{$1}$0
+endsnippet
+
+snippet mto "Math total derivative" iA
+\frac{d ${VISUAL}$1}{d $2} $0
+endsnippet
+
+
+snippet mbf "Math bold font" iA
+\mathbf{${VISUAL}$1}$0
+endsnippet
+
+
+snippet mte "Math text" iA
+\mathrm{${VISUAL}$1}$0
+endsnippet
+
+
+snippet left( "Matching brackets" wA
+\left( $1 \right)$0
+endsnippet
+
+snippet left[ "Matching []" wA
+\left[ $1 \right]$0
+endsnippet
+
+snippet left{ "Matching curly bracket" wA
+\left\\{ $1 \right\\}$0
+endsnippet
+
+snippet bf "Make text bold" i
+\textbf{${VISUAL}$1}$0
+endsnippet
+
+snippet tt "Texttt" i
+\texttt{$1}$0
+endsnippet
+
+snippet it "MAke text italic" i
+\textit{${VISUAL}$1}$0
+endsnippet
+
+context "math()"
+snippet mbs "Math bold symbol" iA
+\boldsymbol{${VISUAL} $1} $0
+endsnippet 
+
+snippet dot "Newtonian notation for total time derivative" w
+\dot{${VISUAL}$1}$0
+endsnippet
+
+snippet pow "power" i
+^{$1}$0
+endsnippet
+
+snippet __ "Math subscript" iA
+_{${VISUAL}$1}$0
+endsnippet
+
+snippet sq "Square root" i
+\sqrt{${1:${VISUAL}}} $0
+endsnippet
+
+snippet int "Integral" w
+\int_{$1}^{$2}$0
+endsnippet
+
+snippet sum "sum" w
+\sum_{${1:i=${2:1}}}^{$3} $0
+endsnippet
+
+snippet prod "product" w
+\prod_{${1:i=${2:1}}}^{${3:\infty}} $0
+endsnippet
+
+snippet mcal "mathcal" iA
+\mathcal{$1}$0
+endsnippet
+
+

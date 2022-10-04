@@ -14,6 +14,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'lervag/vimtex'
 Plug 'sirver/ultisnips', { 'tag': '3.2' }
 Plug 'ycm-core/YouCompleteMe'
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
@@ -71,7 +73,7 @@ set noswapfile
 set expandtab
 set smarttab
 
-"set pastetoggle=<F2>
+set pastetoggle=<F2>
 
 " Moving between windows with ctrl+(move command)
 map <C-j> <C-W>j
@@ -136,11 +138,14 @@ nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
 autocmd BufRead,BufNewFile *.tex setlocal spell
-set spelllang=en
+set spelllang=en,fr
 
 
 autocmd BufNewFile *.tex 0r ~/.vim/template/template.tex
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 
+let g:vim_markdown_emphasis_multiline = 0
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_math = 1
 
