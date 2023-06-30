@@ -1,2 +1,2 @@
 # Configs
-A repo where I store dot files and snippets.
+Dotfiles for vim, neovim and tmux.

@@ -18,7 +18,7 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
-HISTIGNORE="cd*:ls:ll:history"
+HISTIGNORE="cd*:ls*:ll*:history"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -89,7 +89,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -ahlF'
+alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -131,50 +131,44 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-# pywal persist on reboot
-(cat ~/.cache/wal/sequences &)
+# 
+# GOLANG init
+export PATH=$PATH:/usr/local/go/bin
 
 export project=${HOME}'/Desktop/Projects'
-export ecole='/media/alexandre/Seagate/Ecole/Hiver2021'
-export data='/media/alexandre/Seagate/Data/'
+export papers=${HOME}'/Desktop/Papers'
+export presentations=${HOME}'/Desktop/Presentations'
+export ecole=${HOME}'/Desktop/Ecole/Automne2020'
+export LENSTOOLS_DATA=${HOME}'/Desktop/Projects/FlowBasedLikelihoods/data/lenstools_data/'
 
-# avoid the infinite tmux loop
-# starting tmux automatically has drawbacks best to be avoided
-#if [[ ! $TERM =~ screen ]]; then
-    #exec tmux
-#fi
-
-# Cuda environment variables
-export LD_LIBRARY_PATH=/usr/local/cuda-11.2/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-TINYTIM=${project}'/packages/tinytim'
+TINYTIM=${project}'/tinytim'
 export TINYTIM
 alias tiny1=${TINYTIM}'/tiny1'
 alias tiny2=${TINYTIM}'/tiny2'
 alias tiny3=${TINYTIM}'/tiny3'
 
-alias galfit=${project}'/packages/galfit'
-
-
-export PATH="$PATH:${HOME}/julia-1.5.3/bin"
-
-export PATH="$PATH:${HOME}/easy-yorick/bin"
-
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH" 
-export MANPATH="$/home/linuxbrew/.linuxbrew/share/man:$MANPATH" 
-export INFOPATH="$/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
-
-export WEBBPSF_PATH=$project/webbpsf/webbpsf-data
-export PYSYN_CDBS=$HOME/pysynphot_data
+export WEBBPSF_PATH=$HOME/webbpsf_data/webbpsf-data/
+export PYSYN_CDBS=$HOME/pysynphot_data/grp/hst/cdbs/
 export CENSAI_PATH=$project/Censai/
 export CENSAI_PATH2=/media/alexandre/Seagate/Ecole/Censai/
-export LSIREN_PATH=$project/Lensing-SIREN
 export EXORIM_PATH=$project/ExoRIM/
-export CUDA_VISIBLE_DEVICES=-1
+export LSIREN_PATH=$project/Lensing-SIREN/
+export FARGPATH=$project/fargo3d/fargo3d-1.3
 
-#export {http,https}_proxy="p1162403:Pi846264@proxy.umontreal.ca:8080"
+export OPENAI_API_KEY=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
+alias galfit=${project}/packages/Galfit/galfit
 
-#conda activate exorim
+(cat ~/.cache/wal/sequences &)
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if type rg &> /dev/null; then
+          export FZF_DEFAULT_COMMAND='rg --files'
+          export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
