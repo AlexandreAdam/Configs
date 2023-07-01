@@ -2,8 +2,16 @@
 lua require('plugins')
 " Other lua configs
 lua require('coc')
+"lua require('toggleterm') 
+lua require('utils')
+
+" Map <F6> to utils
+"nnoremap <F6> :lua require('utils').start_terminal_in_conda_env()<CR>
+""vim.api.nvim_set_keymap('n', '<F6>', [[<Cmd>lua require('lua').start_terminal_in_conda_env()<CR>]], {noremap = true, silent = true})
+
 
 " ========= General configs =========
+set shell=bash
 set history=500
 set undodir=~/.config/nvim/undodir "Important to separate the undodir between vim and nvim
 set undofile
@@ -75,6 +83,8 @@ nmap <leader>to :tabonly<cr>
 nmap <leader>tc :tabclose<cr>
 nmap <leader>tm :tabmove<cr>
 
+" ToggleTerminal Use <C-\> to toggle a terminal
+
 " Manage NerdTree
 let NERDTreeShowBookmarks=1
 "let g:NERDTreeChDirMode=0
@@ -131,6 +141,13 @@ let g:UltiSnipsEditSplit="horizontal"
 "let g:UltiSnipsSnippetDirectories="UltiSnips"
 nmap <leader>use :UltiSnipsEdit<CR>
 
+" Vimspector
+"let g:vimspector_enable_mappings = 'HUMAN'
+"" for normal mode - the word under the cursor
+"nmap <Leader>di <Plug>VimspectorBalloonEval
+"" for visual mode, the visually selected text
+"xmap <Leader>di <Plug>VimspectorBalloonEval
+
 " FZF file search
 nnoremap <silent> <leader>F :Files<CR>
 nnoremap <silent> <leader>f :Rg<CR>
@@ -183,6 +200,7 @@ set spelllang=en,fr
 autocmd BufNewFile *.tex 0r ~/.vim/template/template.tex
 
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+autocmd Filetype python nnoremap <buffer> <F6> :w<CR>:ter python3 "%"<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 
 

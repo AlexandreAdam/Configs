@@ -20,6 +20,29 @@ return require('packer').startup(function(use)
     use 'scrooloose/nerdtree' --, { 'on': 'NERDTreeToggle' }
     use 'PhilRunninger/nerdtree-visual-selection' 
     use 'preservim/nerdcommenter'
+    --use 'puremourning/vimspector'  Does not work too well and slow
+    use {"akinsho/toggleterm.nvim", tag = '*', 
+    config = function() require("toggleterm").setup({
+          size = 20,
+          open_mapping = [[<c-\>]],
+          hide_numbers = true, -- hide the number column in toggleterm buffers
+          shade_filetypes = {},
+          autochdir = false, -- when neovim changes it current directory the terminal will change it's own when next it's opened
+          shade_terminals = true, 
+          start_in_insert = true,
+          insert_mappings = true, -- whether or not the open mapping applies in insert mode
+          terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
+          persist_size = true,
+          persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
+          direction = 'float',
+          close_on_exit = true, -- close the terminal window when the process exits
+          auto_scroll = true, -- automatically scroll to the bottom on terminal output
+          float_opts = {
+                border = 'double', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
+              },
+        }) end
+    }
+    
     use({"iamcco/markdown-preview.nvim",
             run = function() vim.fn["mkdp#util#install"]() end,
         })
@@ -42,7 +65,7 @@ return require('packer').startup(function(use)
                   model = "gpt-3.5-turbo",
                   frequency_penalty = 0,
                   presence_penalty = 0,
-                  max_tokens = 300,
+                  max_tokens = 2000,
                   temperature = 0,
                   top_p = 1,
                   n = 1,
