@@ -155,7 +155,6 @@ export EXORIM_PATH=$project/ExoRIM/
 export LSIREN_PATH=$project/Lensing-SIREN/
 export FARGPATH=$project/fargo3d/fargo3d-1.3
 
-export OPENAI_API_KEY=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
 alias galfit=${project}/packages/Galfit/galfit
 
 (cat ~/.cache/wal/sequences &)
