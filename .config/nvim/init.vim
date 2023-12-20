@@ -1,9 +1,12 @@
+let g:python3_host_prog = '/home/alexandre/anaconda3/bin/python'
+
 " Packer, the setup is in lua/plugins.lua
 lua require('plugins')
 " Other lua configs
 lua require('coc')
 "lua require('toggleterm') 
 lua require('utils')
+lua require('whichkey')
 
 " Map <F6> to utils
 "nnoremap <F6> :lua require('utils').start_terminal_in_conda_env()<CR>
@@ -153,7 +156,7 @@ nnoremap <silent> <leader>F :Files<CR>
 nnoremap <silent> <leader>f :Rg<CR>
 let g:fzf_action = {'ctrl-t': 'tab split','ctrl-x': 'split', 'ctrl-v': 'vsplit' }
 " Makes it so FzF does not consider filename when searching
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+"command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " Silver searcher
 "nnoremap <silent> <leader>af :Ag<CR>
@@ -202,8 +205,4 @@ autocmd BufNewFile *.tex 0r ~/.vim/template/template.tex
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd Filetype python nnoremap <buffer> <F6> :w<CR>:ter python3 "%"<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-
-
-" Always use the base python
-let g:python3_host_prog = '~/anaconda3/envs/base3.8/bin/python'
 

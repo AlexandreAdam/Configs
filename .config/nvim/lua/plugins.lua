@@ -49,39 +49,12 @@ return require('packer').startup(function(use)
             requires = { 'junegunn/fzf', run = ':call fzf#install()' }
         }
     ---- Neovim setup
-    use({'jackMort/ChatGPT.nvim',
+   use 'github/copilot.vim'
+   use({'jackMort/ChatGPT.nvim',
         config = function()
             require('chatgpt').setup(
             {
                 api_key_cmd = "gpg --decrypt /home/alexandre/openai_key.txt.gpg",
-                keymaps = {
-                    close = {"<C-c>"},
-                    yank_last = "<C-y>",
-                    yank_last_code = "<C-k>",
-                    scroll_up = "<C-u>",
-                    scroll_down = "<C-d>",
-                    new_session = "<C-n>",
-                    cycle_windows = "<Tab>",
-                    cycle_modes = "<C-f>",
-                    select_session = "e",
-                    rename_session = "r",
-                    delete_session = "d",
-                    draft_message = "<C-d>",
-                    toggle_settings = "<C-o>",
-                    toggle_message_role = "<C-r>",
-                    toggle_system_role_open = "<C-s>",
-                  },
-                edit_with_instructions = {
-                  diff = true,
-                  keymaps = {
-                    close = "<C-c>",
-                    accept = "<C-y>",
-                    toggle_diff = "<C-d>",
-                    toggle_settings = "<C-o>",
-                    cycle_windows = "<Tab>",
-                    use_output_as_input = "<C-i>",
-                    }
-                },
                 openai_edit_params = {
                   model = "code-davinci-edit-001",
                   temperature = 0,
