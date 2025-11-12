@@ -1,0 +1,19 @@
+snippet shebang "" iA
+#!/bin/bash
+endsnippet
+
+snippet sbatch "" w 
+#!/bin/bash
+#SBATCH --array=1
+#SBATCH --tasks=1
+#SBATCH --cpus-per-task=1 # maximum cpu per task is 3.5 per gpus
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G                        # memory per node
+#SBATCH --time=00-01:00         # time (DD-HH:MM)
+#SBATCH --account=rrg-lplevass
+#SBATCH --job-name=$1
+#SBATCH --output=%x-%j.out
+
+source $HOME/environments/$2/bin/activate
+python $3
+endsnippet

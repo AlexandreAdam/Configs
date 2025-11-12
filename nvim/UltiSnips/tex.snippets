@@ -1,22 +1,6 @@
 global !p
-texMathZones = ['texMathZone' + x for x in ['', 'X', 'XX', 'Env', 'EnvStarred', 'Ensured']]
-texIgnoreMathZones = ['texMathTextArg']
-
-texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
-texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
-
-ignore = texIgnoreMathZoneIds[0]
-
 def math():
-	synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
-	try:
-		first = next(
-            i for i in reversed(synstackids)
-            if i in texIgnoreMathZoneIds or i in texMathZoneIds
-        )
-		return first != ignore
-	except StopIteration:
-		return False
+	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
 endglobal
 
 context "math()"
@@ -70,11 +54,10 @@ $$1$$2
 endsnippet
 
 snippet md "Displayed math" wA
-\[
-	$1
-\]$0
+\begin{equation*}
+  $1
+\end{equation*}$0
 endsnippet
-
 
 snippet dml "Math Display Labeled" wA
 \begin{equation}\label{eq:$1}
@@ -88,11 +71,15 @@ snippet dmi "Math Display Labeled" wA
 \end{equation} $0
 endsnippet
 
-
 snippet ali "Align" bA
-\begin{align*}
+\begin{align}
 	${1:${VISUAL}}
-\end{align*}
+\end{align}
+endsnippet
+
+context "math()"
+snippet non "No number align" b
+\nonumber
 endsnippet
 
 context "math()"
@@ -122,19 +109,21 @@ snippet partial "partial symbol" i
 \partial_{$1}$0
 endsnippet
 
-
 snippet mto "Math total derivative" iA
-\frac{d ${VISUAL}$1}{d $2} $0
+\frac{\dd ${VISUAL}$1}{\dd $2} $0
 endsnippet
 
 snippet mbf "Math bold font" iA
 \mathbf{${VISUAL}$1}$0
 endsnippet
 
+snippet bm "Bold math" i
+\bm{${VISUAL}$1}$0
+endsnippet
+
 snippet mte "Math text" iA
 \mathrm{${VISUAL}$1}$0
 endsnippet
-
 
 snippet left( "Matching brackets" wA
 \left( $1 \right)$0
@@ -152,7 +141,7 @@ snippet bf "Make text bold" i
 \textbf{${VISUAL}$1}$0
 endsnippet
 
-snippet tt "Texttt" i
+snippet ttt "Texttt" i
 \texttt{$1}$0
 endsnippet
 
@@ -160,13 +149,24 @@ snippet it "MAke text italic" i
 \textit{${VISUAL}$1}$0
 endsnippet
 
+context "math()"
 snippet mbs "Math bold symbol" iA
 \boldsymbol{${VISUAL} $1} $0
 endsnippet 
 
 context "math()"
+snippet mcal "mathcal" iA
+\mathcal{$1}$0
+endsnippet
+
+context "math()"
 snippet dot "Newtonian notation for total time derivative" w
 \dot{${VISUAL}$1}$0
+endsnippet
+
+context "math()"
+snippet ddot "Newtonian notation for total time derivative" w
+\ddot{${VISUAL}$1}$0
 endsnippet
 
 context "math()"
@@ -185,7 +185,7 @@ endsnippet
 
 context "math()"
 snippet int "Integral" w
-\int_{$1}^{$2}$0
+\int_{$1}^{$2}$0 \, \dd $3
 endsnippet
 
 snippet sum "sum" w
@@ -219,169 +219,17 @@ snippet fig "Figure environment" b
 $0
 endsnippet
 
-snippet plot "Plot" w
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xmin= ${1:-10}, xmax= ${2:10},
-			ymin= ${3:-10}, ymax = ${4:10},
-			axis lines = middle,
-		]
-			\addplot[domain=$1:$2, samples=${5:100}]{$6};
-		\end{axis}
-	\end{tikzpicture}
-	\caption{$7}
-	\label{${9:$8}}
-\end{figure}
-endsnippet
-
 snippet tikz "Tikz" w
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}
-		$0
-	\end{tikzpicture}
-	\caption{$1}
-	\label{fig:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-\end{figure}
-endsnippet
-
-
-snippet nn "Tikz node" w
-\node[$5] (${1/[^0-9a-zA-Z]//g}${2}) ${3:at (${4:0,0}) }{${1}};
-$0
-endsnippet
-
-snippet nl "Ticks label node" w
-\node [${2:midway}, ${3:above}] {$1};
-endsnippet
-
-snippet ca "Tikz child above" w
-\node ($1) [above of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet cb "Tikz child below" w
-\node ($1) [below of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet cr "Tikz child right" w
-\node ($1) [right of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet cl "Tikz child left" w
-\node ($1) [left of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet car "Tikz child above right" w
-\node ($1) [above right of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet cal "Tikz child above left" w
-\node ($1) [above left of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet cbr "Tikz child below right" w
-\node ($1) [below right of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet cbl "Tikz child below left" w
-\node ($1) [below left of = $2] {$1};
-\draw ($2) edge ($1);
-$0
-endsnippet
-
-snippet pa "Tikz parent above" w
-\node ($1) [above of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet pb "Tikz parent below" w
-\node ($1) [below of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet pr "Tikz parent right" w
-\node ($1) [right of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet pl "Tikz parent left" w
-\node ($1) [left of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet par "Tikz parent above right" w
-\node ($1) [above right of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet pal "Tikz parent above left" w
-\node ($1) [above left of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet pbr "Tikz parent below right" w
-\node ($1) [below right of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet pbl "Tikz parent below left" w
-\node ($1) [below left of = $2] {$1};
-\draw ($1) edge ($2);
-$0
-endsnippet
-
-snippet tree "Tree graph with Tikz" w
+\centering
 \begin{tikzpicture}
-	% cbr = child below right, pbl = parent below left (snippets)
-	%\tikzset{>=latex}
-	\tikzstyle{every node}=[circle, draw=black, node distance=1.5cm]
-	\tikzstyle{every edge}=[black, ->, thick, draw]
-	\node ($1) at (0, 0) {$1};
-	$2
+	$0
 \end{tikzpicture}
-$0
-endsnippet
-
-snippet tikzlibs "Tikz useful library" b
-\usepackage{tikz}
-\usetikzlibrary{patterns}
-\usepackage{pgfplots}
-\usetikzlibrary{arrows}
-endsnippet
-
-
-#context "math()"
-snippet mcal "mathcal" iA
-\mathcal{$1}$0
 endsnippet
 
 
 snippet frame "beamer frame" w
 \begin{frame}{$1}{$2}
-$0
+	$0
 \end{frame}
 endsnippet
 
@@ -405,14 +253,18 @@ snippet beamer "beamer template" w
 
 
 \usepackage{graphicx}
+\graphicspath{{../figures/}}
+
 \usepackage{float}
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
 \renewcommand\thesubsection{\alph{subsection})}
 \renewcommand\thesubsubsection{\Roman{subsubsection}}
-\newcommand{\s}{\hspace{0.1cm}}
 
 %\usetheme{AnnArbor}
 %\usetheme{Antibes}
@@ -436,9 +288,9 @@ snippet beamer "beamer template" w
 %\usetheme{Marburg}
 %\usetheme{Montpellier}
 %\usetheme{PaloAlto}
-%\usetheme{Pittsburgh}
+\usetheme{Pittsburgh}
 %\usetheme{Rochester}
-\usetheme{Singapore}
+%\usetheme{Singapore}
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
@@ -455,7 +307,8 @@ snippet beamer "beamer template" w
 \setbeamertemplate{headline}{}
 
 %\usecolortheme{dove}
-\setbeamercolor{normal text}{fg=white,bg=black!90}
+%\setbeamercolor{normal text}{fg=white,bg=black} % black background
+\setbeamercolor{normal text}{fg=black,bg=white} % normal white background
 \setbeamercolor{structure}{fg=white}
 
 \setbeamercolor{alerted text}{fg=red!85!black}
@@ -486,14 +339,14 @@ snippet beamer "beamer template" w
 \title{}
 \subtitle{}
 
-\author{}
+\author{Alexandre Adam}
 
-\date{\today}
+\date{}
 
 \AtBeginSubsection[]
 {
   \begin{frame}<beamer>{Résumé}
-	\tableofcontents[currentsection,currentsubsection]
+    \tableofcontents[currentsection,currentsubsection]
   \end{frame}
 }
 
@@ -505,7 +358,7 @@ snippet beamer "beamer template" w
 \begin{document}
 
 \begin{frame}
-	\titlepage
+    \titlepage
 \end{frame}
 
 
@@ -514,6 +367,7 @@ snippet beamer "beamer template" w
 \end{frame}
 
 \end{document}
+
 endsnippet
 
 
@@ -612,6 +466,11 @@ snippet omega "omega" iA
 \omega$0
 endsnippet
 
+context "math()"
+snippet Omega "Omega" iA
+\Omega$0
+endsnippet
+
 
 context "math()"
 snippet mu "mu" iA
@@ -646,6 +505,11 @@ endsnippet
 context  "math()"
 snippet phi "phi" iA
 \phi$0
+endsnippet
+
+context  "math()"
+snippet Phi "phi" iA
+\Phi$0
 endsnippet
 
 context  "math()"
@@ -728,7 +592,12 @@ endsnippet
 
 context "math()"
 snippet set "{}" wA
-\{$1\}$0
+\{${1:${VISUAL}}\}$0
+endsnippet
+
+context "math()"
+snippet kappa "kappa" iA
+\kappa$0
 endsnippet
 
 snippet eqref "" iA
@@ -736,18 +605,33 @@ snippet eqref "" iA
 endsnippet
 
 context "math()"
-snippet bar "bar" iA
+snippet bar "bar" w
 \bar{${1:${VISUAL}}}$0
 endsnippet
 
 context "math()"
-snippet op "operator" i
+snippet tt "transpose" i
+^{\top}$0
+endsnippet
+
+context "math()"
+snippet hat "vector" w
 \hat{${1:${VISUAL}}}$0
+endsnippet
+
+context "math()"
+snippet vec "vector" w
+\vec{${1:${VISUAL}}}$0
 endsnippet
 
 context "math()"
 snippet del "del" i
 \partial$0
+endsnippet
+
+context "math()"
+snippet delt "del" i
+\partial_t$0
 endsnippet
 
 context "math()"
@@ -768,4 +652,77 @@ endsnippet
 context "math()"
 snippet pi "pi" iA
 \pi$0
+endsnippet
+
+context "math()"
+snippet dv "differential" i
+\dv{${1:${VISUAL}}}{$2}$0
+endsnippet
+
+context "math()"
+snippet dt "differential" i
+\dv{${1:${VISUAL}}}{t}$0
+endsnippet
+
+context "math()"
+snippet ddt "differential" i
+\frac[2]{d${1:${VISUAL}}}{dt}$0
+endsnippet
+
+# Requires to define
+# \newcommand{\Dv}[2]{\frac{\mathrm{D} #1}{\mathrm{D} #2}}
+# In preamble
+context "math()"
+snippet Dt "differential" i
+\Dv{${1:${VISUAL}}}{t}$0
+endsnippet
+
+
+context "math()"
+snippet hbar "hbar" iA
+\hbar$0
+endsnippet
+
+snippet sec "Section" w
+\section{$1}
+$0
+endsnippet
+
+snippet sub "Subsection" w
+\subsection{$1}
+$0
+endsnippet
+
+snippet para "Paragraph" w
+\paragraph{$1}
+$0
+endsnippet
+
+
+snippet subsub "Subsubsection" w
+\subsubsection{$1}
+$0
+endsnippet
+
+snippet figt "Figure" w
+\centering
+\begin{tikzpicture}
+    \node at (0,0) {\includegraphics[width=0.8\textwidth]{$1}};
+\end{tikzpicture}
+endsnippet
+
+snippet red "red" w
+{\color{red}${1:${VISUAL}}}
+endsnippet
+
+snippet par "paragraph" w
+\paragraph{$1}$0
+endsnippet
+
+snippet uline "underline" i
+\underline{${1:${VISUAL}}}$0
+endsnippet
+
+snippet bline "bold underline" i
+\underline{\textbf{${1:${VISUAL}}}}$0
 endsnippet

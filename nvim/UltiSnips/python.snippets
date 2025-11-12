@@ -1,0 +1,149 @@
+global !p
+def manim():
+    path = vim.eval("expand('%:p')")
+    return 'manim' in path or 'Scene' in vim.eval("getline(1, '$')")
+endglobal
+
+snippet shebang "shebang" w
+#!/usr/bin/python3
+endsnippet
+
+snippet import "Standard import" w
+import numpy as np
+import matplotlib.pyplot as plt
+endsnippet
+
+snippet " "String" iw
+"$1"$0
+endsnippet
+
+snippet title "" w
+#==============================
+# $1
+#==============================
+$0
+endsnippet
+
+snippet head "head for comments above imports" w
+"""
+=============================================
+Title: $0
+
+Author(s): 
+
+Last modified: 
+
+Description:
+=============================================
+"""
+endsnippet
+
+
+snippet block "Comment block under functions" w
+"""
+$0
+"""
+endsnippet
+
+snippet main "" w
+
+def parse_args():
+    from argparse import ArgumentParser
+    parser = ArgumentParser(description="")
+    return parser.parse_args()
+
+
+def cli():
+    import sys, json
+    args = parse_args()
+    print(json.dumps(vars(args), indent=4))
+    sys.exit(0)
+    
+
+def main():
+    args = parse_args()
+
+if __name__ == "__main__":
+    main()
+endsnippet
+
+
+snippet setup "Minimal setup to work with pyproject.toml" w
+import setuptools
+
+if __name__ == "__main__":
+    setuptools.setup()
+endsnippet
+
+
+snippet pdb "debugger" w
+breakpoint()
+endsnippet
+
+
+snippet btitle "Block title" w
+#==============================
+# $1
+#==============================
+endsnippet
+
+
+# --- Scene template ---
+context "manim()"
+snippet scene "Basic Manim Scene" b
+from manim import *
+
+class ${1:MyScene}(Scene):
+    def construct(self):
+        $0
+endsnippet
+
+# --- Math equation ---
+context "manim()"
+snippet mtex "MathTex equation" wA
+MathTex(r"$1")$0
+endsnippet
+
+# --- Play animation ---
+context "manim()"
+snippet play "self.play(...)" wA
+self.play($1)
+$0
+endsnippet
+
+# --- Transform ---
+context "manim()"
+snippet trans "TransformMatchingTex" wA
+self.play(TransformMatchingTex($1, $2))
+$0
+endsnippet
+
+# --- Wait ---
+context "manim()"
+snippet wait "self.wait()" w
+self.wait(${1:1})
+$0
+endsnippet
+
+# --- FadeIn / FadeOut ---
+context "manim()"
+snippet fin "FadeIn" w
+self.play(FadeIn($1))
+$0
+endsnippet
+
+context "manim()"
+snippet fout "FadeOut" w
+self.play(FadeOut($1))
+$0
+endsnippet
+
+# --- Color map by term ---
+context "manim()"
+snippet color "Color by LaTeX term" w
+${1:eq}.set_color_by_tex_to_color_map({
+    r"${2:term1}": ${3:BLUE},
+    r"${4:term2}": ${5:RED}
+})
+$0
+endsnippet
