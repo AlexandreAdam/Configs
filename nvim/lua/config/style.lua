@@ -4,7 +4,7 @@ vim.opt.termguicolors = true
 vim.opt.background = "dark"
 
 local default_scheme = "tokyonight-night"
-local writing_scheme = "tender"
+local writing_scheme = "moonfly"
 
 local function set_colorscheme(name)
   local ok = pcall(vim.cmd, "colorscheme " .. name)
